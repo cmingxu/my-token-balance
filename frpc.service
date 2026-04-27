@@ -1,0 +1,15 @@
+[Unit]
+Description=frpc — my-token-balance reverse tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+ExecStart=/usr/local/bin/frpc -c /etc/frpc/frpc.toml
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

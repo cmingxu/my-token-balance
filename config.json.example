@@ -1,0 +1,17 @@
+  {
+    "infura_api_key": "YOUR_INFURA_PROJECT_ID",
+    "rpc_url": "https://polygon-mainnet.infura.io/v3/",
+    "usdc_e_contract": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "listen_addr": ":8081",
+    "accounts": [
+      {
+        "name": "my_wallet",
+        "address": "0x1234567890abcdef1234567890abcdef12345678"
+      },
+      {
+        "name": "vault",
+        "address": "0xabcdef1234567890abcdef1234567890abcdef12"
+      }
+    ]
+  }
+

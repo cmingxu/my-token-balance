@@ -1,0 +1,12 @@
+# frpc configuration — tunnel my-token-balance web UI through frp
+# See https://github.com/fatedier/frp#configuration
+
+serverAddr = "39.106.159.171"
+serverPort = 7000
+
+[[proxies]]
+name = "my-token-balance"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 8081
+remotePort = 8232

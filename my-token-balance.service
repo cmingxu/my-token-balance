@@ -1,0 +1,18 @@
+[Unit]
+Description=My Token Balance - Polygon USDC balance checker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+ExecStart=/usr/local/bin/my-token-balance -config=/etc/my-token-balance/config.json
+Environment=GIN_MODE=release
+
+WorkingDirectory=/var/lib/my-token-balance
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
