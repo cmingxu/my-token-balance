@@ -10,17 +10,20 @@ import (
 
 	"my-token-balance/internal/balance"
 	"my-token-balance/internal/config"
+	"my-token-balance/internal/store"
 )
 
 type Handler struct {
 	balClient *balance.Client
 	cfg       config.Config
+	store     *store.Store
 }
 
-func New(balClient *balance.Client, cfg config.Config) *Handler {
+func New(balClient *balance.Client, cfg config.Config, st *store.Store) *Handler {
 	return &Handler{
 		balClient: balClient,
 		cfg:       cfg,
+		store:     st,
 	}
 }
 
@@ -28,6 +31,7 @@ func (h *Handler) Register(r *gin.Engine) {
 	r.GET("/api/health", h.health)
 	r.GET("/api/balances", h.getBalances)
 	r.GET("/api/accounts", h.getAccounts)
+	r.GET("/api/history", h.getHistory)
 }
 
 func (h *Handler) health(c *gin.Context) {
@@ -71,11 +75,12 @@ func (h *Handler) getBalances(c *gin.Context) {
 	}
 
 	type accountBal struct {
-		Name    string   `json:"name"`
-		Address string   `json:"address"`
-		Short   string   `json:"short"`
+		Name    string    `json:"name"`
+		Address string    `json:"address"`
+		Short   string    `json:"short"`
 		POL     tokenInfo `json:"pol"`
 		USDCe   tokenInfo `json:"usdc_e"`
+		PUSD    tokenInfo `json:"pusd"`
 	}
 
 	resp := make([]accountBal, len(results))
@@ -92,8 +97,16 @@ func (h *Handler) getBalances(c *gin.Context) {
 				Raw:   r.USDCeWe,
 				Human: r.USDCe,
 			},
+			PUSD: tokenInfo{
+				Raw:   r.PUSDWei,
+				Human: r.PUSD,
+			},
 		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"balances": resp})
+}
+
+func (h *Handler) getHistory(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"history": h.store.GetAll()})
 }

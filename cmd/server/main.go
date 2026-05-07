@@ -14,8 +14,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"my-token-balance/internal/balance"
+	"my-token-balance/internal/collector"
 	"my-token-balance/internal/config"
 	"my-token-balance/internal/handler"
+	"my-token-balance/internal/store"
 	"my-token-balance/webui"
 )
 
@@ -36,9 +38,16 @@ func main() {
 	}
 
 	rpcURL := cfg.RPCURL + cfg.InfuraAPIKey
-	balClient := balance.New(rpcURL, cfg.USDCeContract)
+	balClient := balance.New(rpcURL, cfg.USDCeContract, cfg.PUSDContract)
 
-	h := handler.New(balClient, cfg)
+	st := store.New(2016) // 7 days at 5-min intervals
+
+	col := collector.New(balClient, st, cfg)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	go col.Start(ctx)
+
+	h := handler.New(balClient, cfg, st)
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()

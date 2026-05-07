@@ -16,6 +16,7 @@ type Config struct {
 	InfuraAPIKey  string    `json:"infura_api_key"`
 	RPCURL        string    `json:"rpc_url"`
 	USDCeContract string    `json:"usdc_e_contract"`
+	PUSDContract  string    `json:"pusd_contract"`
 	Accounts      []Account `json:"accounts"`
 	ListenAddr    string    `json:"listen_addr"`
 }
@@ -24,6 +25,7 @@ func Default() Config {
 	return Config{
 		RPCURL:        "https://polygon-mainnet.infura.io/v3/",
 		USDCeContract: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+		PUSDContract:  "0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB",
 		ListenAddr:    ":8081",
 	}
 }
@@ -57,6 +59,9 @@ func Load(path string) (Config, error) {
 	}
 	if fileCfg.USDCeContract != "" {
 		cfg.USDCeContract = fileCfg.USDCeContract
+	}
+	if fileCfg.PUSDContract != "" {
+		cfg.PUSDContract = fileCfg.PUSDContract
 	}
 	if fileCfg.ListenAddr != "" {
 		cfg.ListenAddr = fileCfg.ListenAddr

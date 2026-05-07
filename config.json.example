@@ -2,6 +2,7 @@
     "infura_api_key": "YOUR_INFURA_PROJECT_ID",
     "rpc_url": "https://polygon-mainnet.infura.io/v3/",
     "usdc_e_contract": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    "pusd_contract": "0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB",
     "listen_addr": ":8081",
     "accounts": [
       {
